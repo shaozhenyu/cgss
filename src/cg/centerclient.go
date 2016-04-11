@@ -21,11 +21,17 @@ func (client *CenterClient) AddPlayer(player *Player) error {
 	if err == nil && resp.Code == "200" {
 		return nil
 	}
+
+	if resp.Code != "2OO" {
+		err = errors.New(resp.Code)
+	}
+
 	return err
 }
 
 func (client *CenterClient) RemovePlayer(name string) error {
 	ret, _ := client.Call("removeplayer", name)
+
 	if ret.Code == "200" {
 		return nil
 	}

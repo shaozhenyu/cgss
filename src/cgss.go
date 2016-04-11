@@ -45,9 +45,12 @@ func Logout(args []string) int {
 		return 0
 	}
 
-	centerClient.RemovePlayer(args[1])
-
-	fmt.Println("Logout ok!")
+	err := centerClient.RemovePlayer(args[1])
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("Logout ok!")
+	}
 	return 0
 }
 
@@ -74,7 +77,7 @@ func Login(args []string) int {
 
 	err = centerClient.AddPlayer(player)
 	if err != nil {
-		fmt.Println("Failed adding player", err)
+		fmt.Println("Failed adding player ", err)
 		return 0
 	}
 

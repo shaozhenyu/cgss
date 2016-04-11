@@ -3,6 +3,7 @@ package cg
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 	"sync"
 
 	"ipc"
@@ -39,6 +40,12 @@ func (server *CenterServer) addPlayer(params string) error {
 		return err
 	}
 
+	for i := 0; i < len(server.players); i++ {
+		if strings.EqualFold(player.Name, server.players[i].Name) {
+			return errors.New("Name is exit!")
+		}
+	}
+
 	server.mutex.Lock()
 	defer server.mutex.Unlock()
 
@@ -64,7 +71,7 @@ func (server *CenterServer) removePlayer(params string) error {
 			return nil
 		}
 	}
-	return errors.New("Player not found")
+	return errors.New("Player not found!")
 }
 
 func (server *CenterServer) listPlayer(params string) (players string, err error) {
